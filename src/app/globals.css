@@ -1,95 +1,177 @@
 @import "tailwindcss";
 
-@theme {
-  /* Brand colors: same names as before, now more vivid */
-  --color-cream: #fff6e0;
-  --color-cream-deep: #fbe3b5;
-  --color-santa: #d90429;
-  --color-santa-dark: #a30320;
-  --color-pine: #0b6b3a;
-  --color-pine-dark: #053d22;
-  --color-gold: #ffc83d;
-  --color-ink: #1a1410;
-
-  /* Extra accents (optional to use) */
-  --color-holly: #12a150;
-  --color-berry: #7a0b2e;
-}
-
-@theme inline {
-  --font-display: var(--font-bricolage), ui-sans-serif, system-ui, sans-serif;
-  --font-sans: var(--font-dm-sans), ui-sans-serif, system-ui, sans-serif;
-}
-
 html {
   scroll-behavior: smooth;
 }
 
-body {
-  background-color: var(--color-cream);
-  background-image:
-    radial-gradient(circle at 8% 0%, rgb(217 4 41 / 0.07), transparent 38%),
-    radial-gradient(circle at 92% 6%, rgb(255 200 61 / 0.22), transparent 36%);
-  background-repeat: no-repeat;
-  color: var(--color-ink);
-  font-family: var(--font-sans);
-  -webkit-font-smoothing: antialiased;
+:root {
+  --radius: 0.75rem;
+
+  /* ---------- Brand palette ---------- */
+  --santa: #d90429;
+  --santa-dark: #a30320;
+  --pine: #0b6b3a;
+  --pine-dark: #053d22;
+  --gold: #ffc83d;
+  --cream: #fff6e0;
+  --cream-deep: #fbe3b5;
+  --ink: #1a1410;
+  --holly: #12a150;
+  --berry: #7a0b2e;
+
+  /* ---------- Semantic tokens ---------- */
+  --background: var(--cream);
+  --foreground: var(--ink);
+  --card: #ffffff;
+  --card-foreground: var(--ink);
+  --popover: #ffffff;
+  --popover-foreground: var(--ink);
+
+  --primary: var(--santa);
+  --primary-foreground: #ffffff;
+
+  --secondary: var(--pine);
+  --secondary-foreground: var(--cream);
+
+  --muted: var(--cream-deep);
+  --muted-foreground: #6b5b4b;
+
+  --accent: var(--gold);
+  --accent-foreground: var(--ink);
+
+  --destructive: #b91c1c;
+  --destructive-foreground: #ffffff;
+
+  --border: rgb(11 107 58 / 0.18);
+  --input: rgb(11 107 58 / 0.25);
+  --ring: var(--gold);
 }
 
-h1,
-h2,
-h3 {
-  font-family: var(--font-display);
-  letter-spacing: -0.02em;
+@theme inline {
+  --font-sans: var(--font-dm-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-bricolage), ui-sans-serif, system-ui, sans-serif;
+
+  /* Brand colors (used by existing components: bg-santa, text-pine, ...) */
+  --color-santa: var(--santa);
+  --color-santa-dark: var(--santa-dark);
+  --color-pine: var(--pine);
+  --color-pine-dark: var(--pine-dark);
+  --color-gold: var(--gold);
+  --color-cream: var(--cream);
+  --color-cream-deep: var(--cream-deep);
+  --color-ink: var(--ink);
+  --color-holly: var(--holly);
+  --color-berry: var(--berry);
+
+  /* Semantic colors */
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
 }
 
-::selection {
-  background: var(--color-gold);
-  color: var(--color-ink);
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground font-sans antialiased;
+    background-image:
+      radial-gradient(circle at 8% 0%, rgb(217 4 41 / 0.07), transparent 38%),
+      radial-gradient(circle at 92% 6%, rgb(255 200 61 / 0.22), transparent 36%);
+    background-repeat: no-repeat;
+  }
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-display;
+    letter-spacing: -0.02em;
+  }
+  ::selection {
+    background: var(--gold);
+    color: var(--ink);
+  }
+}
+
+/* ---------- Hover lift (cards, buttons) ---------- */
+.hover-lift {
+  transition: transform 0.2s ease-out, box-shadow 0.2s ease-out;
+}
+.hover-lift:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgb(26 20 16 / 0.12);
 }
 
 /* ---------- Gentle snowfall (whole site) ----------
-   Animates transform only (GPU-friendly, cheap on low-end phones).
-   The layer is 320px taller than the screen and slides down exactly one
-   tile, so it loops seamlessly. Remove this block to turn snow off. */
+   Animates transform only, so it's cheap on low-end phones.
+   Delete this block and the snow-fall keyframes to turn snow off. */
 body::before {
   content: "";
   position: fixed;
   inset: -320px 0 0 0;
   z-index: 30;
   pointer-events: none;
-  opacity: 0.55;
+  opacity: 0.85;
   background-image:
-    radial-gradient(2px 2px at 30px 40px, #fff, transparent),
-    radial-gradient(3px 3px at 120px 90px, #fff, transparent),
-    radial-gradient(2px 2px at 210px 30px, #fff, transparent),
-    radial-gradient(3px 3px at 270px 160px, #fff, transparent),
-    radial-gradient(2px 2px at 70px 220px, #fff, transparent),
-    radial-gradient(3px 3px at 180px 270px, #fff, transparent);
+    radial-gradient(2px 2px at 30px 40px, #a9d2ec, transparent),
+    radial-gradient(3px 3px at 120px 90px, #a9d2ec, transparent),
+    radial-gradient(2px 2px at 210px 30px, #a9d2ec, transparent),
+    radial-gradient(3px 3px at 270px 160px, #a9d2ec, transparent),
+    radial-gradient(2px 2px at 70px 220px, #a9d2ec, transparent),
+    radial-gradient(3px 3px at 180px 270px, #a9d2ec, transparent);
   background-size: 320px 320px;
   will-change: transform;
   animation: snow-fall 26s linear infinite;
 }
-
 @keyframes snow-fall {
-  to {
-    transform: translateY(320px);
-  }
+  to { transform: translateY(320px); }
 }
 
 /* ---------- Reveal card pop ---------- */
 @keyframes pop-in {
-  from {
-    opacity: 0;
-    transform: scale(0.92) translateY(12px);
-  }
-  to {
-    opacity: 1;
-    transform: none;
-  }
+  from { opacity: 0; transform: scale(0.92) translateY(12px); }
+  to { opacity: 1; transform: none; }
 }
 .animate-pop-in {
   animation: pop-in 0.6s ease-out both;
+}
+
+/* ---------- Fade in on load ---------- */
+@keyframes fade-in-up {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.animate-fade-in-up {
+  animation: fade-in-up 0.6s ease-out both;
+}
+
+/* ---------- Loading skeleton (Phase 5 loading states) ---------- */
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+.animate-shimmer {
+  background: linear-gradient(90deg, var(--cream-deep) 25%, #fff3d6 50%, var(--cream-deep) 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.8s ease-in-out infinite;
 }
 
 /* ---------- Santa guide ---------- */
@@ -129,8 +211,6 @@ body::before {
 }
 
 /* ---------- Optional extras (add the class where you want them) ---------- */
-
-/* Sparkle icons: slow twinkle */
 @keyframes twinkle {
   0%, 100% { opacity: 1; transform: scale(1) rotate(0deg); }
   50% { opacity: 0.6; transform: scale(0.85) rotate(12deg); }
@@ -139,7 +219,6 @@ body::before {
   animation: twinkle 2.6s ease-in-out infinite;
 }
 
-/* String-lights strip: four colors that softly pulse */
 @keyframes lights-pulse {
   0%, 100% { opacity: 1; }
   50% { opacity: 0.55; }
@@ -149,9 +228,9 @@ body::before {
   background-repeat: repeat-x;
   background-size: 48px 8px;
   background-image:
-    radial-gradient(circle at 6px 4px, var(--color-santa) 0 3px, transparent 3.5px),
-    radial-gradient(circle at 18px 4px, var(--color-gold) 0 3px, transparent 3.5px),
-    radial-gradient(circle at 30px 4px, var(--color-holly) 0 3px, transparent 3.5px),
+    radial-gradient(circle at 6px 4px, var(--santa) 0 3px, transparent 3.5px),
+    radial-gradient(circle at 18px 4px, var(--gold) 0 3px, transparent 3.5px),
+    radial-gradient(circle at 30px 4px, var(--holly) 0 3px, transparent 3.5px),
     radial-gradient(circle at 42px 4px, #ffffff 0 3px, transparent 3.5px);
   animation: lights-pulse 2.4s ease-in-out infinite;
 }
@@ -165,11 +244,18 @@ body::before {
     display: none;
   }
   .animate-pop-in,
+  .animate-fade-in-up,
+  .animate-shimmer,
   .animate-bob,
   .animate-twinkle,
   .santa-eyes,
   .christmas-lights {
     animation: none;
+  }
+  .hover-lift,
+  .hover-lift:hover {
+    transition: none;
+    transform: none;
   }
   .confetti-piece {
     display: none;
