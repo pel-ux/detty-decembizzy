@@ -1,26 +1,177 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+@theme {
+  /* Brand colors: same names as before, now more vivid */
+  --color-cream: #fff6e0;
+  --color-cream-deep: #fbe3b5;
+  --color-santa: #d90429;
+  --color-santa-dark: #a30320;
+  --color-pine: #0b6b3a;
+  --color-pine-dark: #053d22;
+  --color-gold: #ffc83d;
+  --color-ink: #1a1410;
+
+  /* Extra accents (optional to use) */
+  --color-holly: #12a150;
+  --color-berry: #7a0b2e;
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --font-display: var(--font-bricolage), ui-sans-serif, system-ui, sans-serif;
+  --font-sans: var(--font-dm-sans), ui-sans-serif, system-ui, sans-serif;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html {
+  scroll-behavior: smooth;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background-color: var(--color-cream);
+  background-image:
+    radial-gradient(circle at 8% 0%, rgb(217 4 41 / 0.07), transparent 38%),
+    radial-gradient(circle at 92% 6%, rgb(255 200 61 / 0.22), transparent 36%);
+  background-repeat: no-repeat;
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+}
+
+h1,
+h2,
+h3 {
+  font-family: var(--font-display);
+  letter-spacing: -0.02em;
+}
+
+::selection {
+  background: var(--color-gold);
+  color: var(--color-ink);
+}
+
+/* ---------- Gentle snowfall (whole site) ----------
+   Animates transform only (GPU-friendly, cheap on low-end phones).
+   The layer is 320px taller than the screen and slides down exactly one
+   tile, so it loops seamlessly. Remove this block to turn snow off. */
+body::before {
+  content: "";
+  position: fixed;
+  inset: -320px 0 0 0;
+  z-index: 30;
+  pointer-events: none;
+  opacity: 0.55;
+  background-image:
+    radial-gradient(2px 2px at 30px 40px, #fff, transparent),
+    radial-gradient(3px 3px at 120px 90px, #fff, transparent),
+    radial-gradient(2px 2px at 210px 30px, #fff, transparent),
+    radial-gradient(3px 3px at 270px 160px, #fff, transparent),
+    radial-gradient(2px 2px at 70px 220px, #fff, transparent),
+    radial-gradient(3px 3px at 180px 270px, #fff, transparent);
+  background-size: 320px 320px;
+  will-change: transform;
+  animation: snow-fall 26s linear infinite;
+}
+
+@keyframes snow-fall {
+  to {
+    transform: translateY(320px);
+  }
+}
+
+/* ---------- Reveal card pop ---------- */
+@keyframes pop-in {
+  from {
+    opacity: 0;
+    transform: scale(0.92) translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+.animate-pop-in {
+  animation: pop-in 0.6s ease-out both;
+}
+
+/* ---------- Santa guide ---------- */
+@keyframes bob {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-4px); }
+}
+.animate-bob {
+  animation: bob 3s ease-in-out infinite;
+}
+
+@keyframes blink {
+  0%, 92%, 100% { transform: scaleY(1); }
+  96% { transform: scaleY(0.1); }
+}
+.santa-eyes {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: blink 4s infinite;
+}
+
+/* ---------- Premium confetti ---------- */
+@keyframes confetti-fall {
+  from { transform: translateY(-10vh) rotate(0deg); opacity: 1; }
+  to { transform: translateY(105vh) rotate(540deg); opacity: 0.9; }
+}
+.confetti-piece {
+  position: fixed;
+  top: 0;
+  width: 8px;
+  height: 14px;
+  border-radius: 2px;
+  pointer-events: none;
+  animation-name: confetti-fall;
+  animation-timing-function: linear;
+  animation-fill-mode: forwards;
+}
+
+/* ---------- Optional extras (add the class where you want them) ---------- */
+
+/* Sparkle icons: slow twinkle */
+@keyframes twinkle {
+  0%, 100% { opacity: 1; transform: scale(1) rotate(0deg); }
+  50% { opacity: 0.6; transform: scale(0.85) rotate(12deg); }
+}
+.animate-twinkle {
+  animation: twinkle 2.6s ease-in-out infinite;
+}
+
+/* String-lights strip: four colors that softly pulse */
+@keyframes lights-pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.55; }
+}
+.christmas-lights {
+  height: 8px;
+  background-repeat: repeat-x;
+  background-size: 48px 8px;
+  background-image:
+    radial-gradient(circle at 6px 4px, var(--color-santa) 0 3px, transparent 3.5px),
+    radial-gradient(circle at 18px 4px, var(--color-gold) 0 3px, transparent 3.5px),
+    radial-gradient(circle at 30px 4px, var(--color-holly) 0 3px, transparent 3.5px),
+    radial-gradient(circle at 42px 4px, #ffffff 0 3px, transparent 3.5px);
+  animation: lights-pulse 2.4s ease-in-out infinite;
+}
+
+/* ---------- Respect "reduce motion" ---------- */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  body::before {
+    display: none;
+  }
+  .animate-pop-in,
+  .animate-bob,
+  .animate-twinkle,
+  .santa-eyes,
+  .christmas-lights {
+    animation: none;
+  }
+  .confetti-piece {
+    display: none;
+  }
 }
