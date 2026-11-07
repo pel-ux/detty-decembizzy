@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { Container } from "@/components/ui/container";
 import { ButtonLink } from "@/components/ui/button";
-import { Reveal } from "@/components/surrprise/reveal";
+import { Reveal } from "@/components/surprise/reveal";
 import { getSurpriseByPublicId } from "@/features/surprise-creator/queries";
 import { ROUTES } from "@/lib/constants";
 

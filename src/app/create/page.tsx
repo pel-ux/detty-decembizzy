@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { Container } from "@/components/ui/container";
-import { CreateForm } from "@/components/surrprise/create-form";
+import { CreateForm } from "@/components/surprise/create-form";
 
 export const metadata: Metadata = { title: "Create a Surprise" };
 

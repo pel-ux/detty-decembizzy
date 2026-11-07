@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { notFound, redirect } from "next/navigation";
 import { Container } from "@/components/ui/container";
-import { PreviewPanel } from "@/components/surrprise/preview-panel";
+import { PreviewPanel } from "@/components/surprise/preview-panel";
 import { getSurpriseByPublicId } from "@/features/surprise-creator/queries";
 import { isOwner } from "@/features/surprise-creator/ownership";
 import { REGEN_LIMITS } from "@/features/payments/pricing";
