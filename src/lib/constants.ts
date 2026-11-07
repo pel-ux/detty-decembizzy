@@ -10,6 +10,7 @@ export const BRAND = {
 export const ROUTES = {
   home: "/",
   create: "/create",
+  wishlistNew: "/wishlist/new",
   privacy: "/privacy",
   terms: "/terms",
 } as const;
@@ -18,5 +19,6 @@ export const NAV_LINKS = [
   { href: "#how-it-works", label: "How it works" },
   { href: "#styles", label: "Styles" },
   { href: "#pricing", label: "Free vs Premium" },
+  { href: "/wishlist/new", label: "Secret Wishlist" },
   { href: "#faq", label: "FAQ" },
 ] as const;
