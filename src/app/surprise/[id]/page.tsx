@@ -6,7 +6,15 @@ import { Reveal } from "@/components/surprise/reveal";
 import { getSurpriseByPublicId } from "@/features/surprise-creator/queries";
 import { ROUTES } from "@/lib/constants";
 
-export const metadata: Metadata = { title: "A surprise from Santa", robots: { index: false } };
+export const metadata: Metadata = {
+  title: "A surprise from Santa",
+  description: "Someone sent you a Christmas surprise. Tap to open it.",
+  robots: { index: false },
+  openGraph: {
+    title: "A surprise from Santa",
+    description: "Someone sent you a Christmas surprise. Tap to open it.",
+  },
+};
 
 export default async function SurprisePage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;

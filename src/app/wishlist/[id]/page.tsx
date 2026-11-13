@@ -9,7 +9,15 @@ import { getWishlistByPublicId } from "@/features/wishlists/queries";
 import { MAX_ITEMS_PER_WISHLIST } from "@/features/wishlists/schemas";
 import { ROUTES } from "@/lib/constants";
 
-export const metadata: Metadata = { title: "Secret Wishlist", robots: { index: false } };
+export const metadata: Metadata = {
+  title: "Secret Wishlist",
+  description: "Pick a gift from this Christmas wishlist. The owner will not see who picked what.",
+  robots: { index: false },
+  openGraph: {
+    title: "A secret Christmas wishlist",
+    description: "Pick a gift from this list. The owner will not see who picked what.",
+  },
+};
 
 export default async function WishlistPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;

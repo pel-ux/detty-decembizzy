@@ -18,9 +18,20 @@ const dmSans = DM_Sans({
   display: "swap",
 });
 
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000";
+
 export const metadata: Metadata = {
+  metadataBase: new URL(siteUrl),
   title: { default: `${BRAND.name} | ${BRAND.tagline}`, template: `%s | ${BRAND.name}` },
   description: BRAND.description,
+  openGraph: {
+    type: "website",
+    siteName: BRAND.name,
+    title: `${BRAND.name} | ${BRAND.tagline}`,
+    description: BRAND.description,
+    locale: "en_NG",
+  },
+  twitter: { card: "summary_large_image" },
 };
 
 export const viewport: Viewport = {
